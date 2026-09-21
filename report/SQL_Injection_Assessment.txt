@@ -188,10 +188,4 @@ table discovery, sensitive information exposure, and potential authentication by
 Immediate remediation is strongly recommended to prevent unauthorized access and 
 potential compromise of organizational assets.
 
---------------------------------------------------------------------------------
-DISCLAIMER
---------------------------------------------------------------------------------
-This assessment was conducted against a publicly available vulnerable training 
-environment for educational and research purposes. No testing was performed 
-against production systems without authorization.
 ================================================================================
