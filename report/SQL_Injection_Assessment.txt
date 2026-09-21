@@ -1,0 +1,197 @@
+================================================================================
+VULNERABILITY ASSESSMENT & PENETRATION TESTING REPORT
+================================================================================
+SQL Injection Assessment Report
+
+Target Application     : https://testasp.vulnweb.com
+Assessment Type        : Web Application Penetration Testing
+Vulnerability Category : SQL Injection (CWE-89)
+Severity               : Critical (CVSS v3.1 Base Score: 9.8)
+Prepared By            : Ravali Kommidi
+Date                   : September 2026
+
+--------------------------------------------------------------------------------
+1. EXECUTIVE SUMMARY
+--------------------------------------------------------------------------------
+A web application security assessment was conducted against the target application 
+to identify vulnerabilities that could impact confidentiality, integrity, and availability.
+
+During testing, a critical SQL Injection vulnerability was identified in the 
+authentication functionality. The vulnerability allows malicious SQL statements to be 
+executed through user-supplied input, enabling unauthorized access to backend 
+database information.
+
+Successful exploitation permitted database enumeration, table discovery, column 
+identification, and extraction of sensitive records from the backend database. This 
+issue poses a significant risk because an attacker could bypass authentication 
+mechanisms and gain access to sensitive organizational data.
+
+Risk Rating: Critical
+
+--------------------------------------------------------------------------------
+2. ASSESSMENT OBJECTIVES
+--------------------------------------------------------------------------------
+The objectives of the assessment were to:
+- Identify web application security weaknesses.
+- Verify the existence of SQL Injection vulnerabilities.
+- Determine the impact on backend databases.
+- Assess the exposure of sensitive information.
+- Provide remediation recommendations.
+
+--------------------------------------------------------------------------------
+3. TESTING METHODOLOGY
+--------------------------------------------------------------------------------
+The assessment followed the following methodology:
+
+* Reconnaissance:
+  Identified application entry points. Analyzed HTTP requests and parameters.
+
+* Traffic Interception:
+  Captured authentication requests using Burp Suite. Identified user-supplied 
+  parameters submitted to the login form.
+
+* Vulnerability Verification:
+  Performed automated SQL Injection testing using SQLMap. Validated injection 
+  points through backend responses.
+
+* Enumeration Phase:
+  Enumerated available databases. Enumerated tables and columns. Retrieved 
+  sample records for impact assessment.
+
+The commands and workflow used are documented in SQL MAP.
+
+--------------------------------------------------------------------------------
+4. TECHNICAL FINDINGS
+--------------------------------------------------------------------------------
+Finding 1: SQL Injection in Authentication Module
+
+Attribute                 Value / Details
+----------------------------------------------------------------------
+Vulnerability             SQL Injection
+CWE                       CWE-89
+OWASP Category            A03:2021 Injection
+Severity                  Critical
+CVSS v3.1 Score           9.8
+Attack Vector             Network
+Authentication Required   No
+User Interaction          None
+Affected Parameter        tfUName
+Request Type              HTTP POST
+
+Vulnerability Description:
+The application fails to properly sanitize or parameterize user-controlled input 
+before constructing SQL queries. As a result, specially crafted SQL statements 
+can be injected into the authentication request and executed directly by the 
+backend database server.
+
+An attacker may leverage this vulnerability to:
+- Bypass authentication controls.
+- Enumerate backend databases.
+- Extract sensitive information.
+- Retrieve credentials.
+- Gather intelligence about internal systems.
+
+--------------------------------------------------------------------------------
+5. PROOF OF CONCEPT
+--------------------------------------------------------------------------------
+Vulnerable Endpoint:
+POST /Login.asp HTTP/1.1
+Host: testasp.vulnweb.com
+
+Injection Point:
+tfUName
+
+Verification:
+SQLMap identified the parameter as injectable and successfully established 
+communication with the backend database engine documented in SQL MAP.
+
+--------------------------------------------------------------------------------
+6. EVIDENCE OF EXPLOITATION
+--------------------------------------------------------------------------------
+The following evidence was collected during testing:
+
+* Database Enumeration:
+  Successfully identified multiple databases including: acuforum, master, 
+  model, msdb, tempdb. Documented database enumeration results are available 
+  in SQL MAP.
+
+* Table Enumeration:
+  High-value tables containing user information were identified.
+
+* Column Enumeration:
+  Sensitive fields including usernames and password-related columns were discovered.
+
+* Data Extraction:
+  The assessment demonstrated the ability to retrieve user records from the 
+  application database, confirming unauthorized access to sensitive backend 
+  information.
+
+--------------------------------------------------------------------------------
+7. IMPACT ASSESSMENT
+--------------------------------------------------------------------------------
+If exploited by a malicious actor, this vulnerability could result in:
+
+* Confidentiality Impact:
+  Exposure of user information. Disclosure of administrative accounts. Leakage 
+  of sensitive business data.
+
+* Integrity Impact:
+  Modification of application data. Unauthorized updates to database records. 
+  Privilege escalation opportunities.
+
+* Availability Impact:
+  Potential disruption of database services. Execution of resource-intensive 
+  queries. Risk of application instability.
+
+Overall Business Risk: Critical
+The identified vulnerability provides direct access to backend database structures 
+and significantly increases the risk of unauthorized access to sensitive information.
+
+--------------------------------------------------------------------------------
+8. RISK RATING SUMMARY
+--------------------------------------------------------------------------------
+Metric            Value
+--------------------------
+Severity          Critical
+CVSS Score        9.8
+Exploitability    High
+Impact            High
+Likelihood        High
+
+--------------------------------------------------------------------------------
+9. REMEDIATION RECOMMENDATIONS
+--------------------------------------------------------------------------------
+Immediate Actions:
+- Parameterized Queries: Replace dynamic SQL statements with prepared statements 
+  and parameterized queries.
+- Input Validation: Implement strict server-side validation for all user-controlled 
+  inputs.
+- Stored Procedures: Use secure stored procedures where appropriate.
+- Error Handling: Disable verbose database error messages exposed to users.
+- Web Application Firewall (WAF): Deploy a WAF capable of detecting and blocking 
+  SQL Injection payloads.
+
+Long-Term Security Improvements:
+- Conduct regular code reviews.
+- Implement secure SDLC practices.
+- Perform periodic penetration testing.
+- Enable centralized security monitoring.
+- Provide secure coding training to developers.
+
+--------------------------------------------------------------------------------
+10. CONCLUSION
+--------------------------------------------------------------------------------
+The assessment identified a Critical SQL Injection vulnerability within the 
+application's authentication mechanism. Exploitation enabled database enumeration, 
+table discovery, sensitive information exposure, and potential authentication bypass.
+
+Immediate remediation is strongly recommended to prevent unauthorized access and 
+potential compromise of organizational assets.
+
+--------------------------------------------------------------------------------
+DISCLAIMER
+--------------------------------------------------------------------------------
+This assessment was conducted against a publicly available vulnerable training 
+environment for educational and research purposes. No testing was performed 
+against production systems without authorization.
+================================================================================
